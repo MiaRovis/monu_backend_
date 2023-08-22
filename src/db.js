@@ -1,7 +1,5 @@
 import mongo from "mongodb";
 
-const mongo = require('mongodb');
-
 let connection_string = "mongodb+srv://admin:admin@cluster0.yaspvmn.mongodb.net/?retryWrites=true&w=majority";
 
 let client = new mongo.MongoClient(connection_string, {
@@ -22,7 +20,7 @@ export default () => {
                     reject('Spajanje na bazu nije uspjelo:' + err);
                 } else {
                     console.log('Database connected successfully!');
-                    db = client.db("FavSho");
+                    db = client.db("monu");
                     resolve(db);
                 }
             });
