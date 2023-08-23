@@ -1,5 +1,5 @@
 import express from 'express'
-import connect from './db.js'
+
 
 const app = express()
 const port = 3000
@@ -14,4 +14,3 @@ console.log("hello u konzolu")
 
 // `
 
-app.listen(port, () => console.log( `slusam na portu ${port}`))
