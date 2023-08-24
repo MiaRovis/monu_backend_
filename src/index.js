@@ -1,16 +1,28 @@
-import express from 'express'
+import express from 'express';
+import connect from './db.js';
 
+const app = express();
 
-const app = express()
-const port = 3000
+app.get('/posts', async (req, res) => {
+    let db = await connect()
 
-app.get('/', (req, res) => {
+    let cursor = await db.collcetion("posts").find().sort({postedAt: -1})
+    let results = await cursor.toArray()
 
-console.log(req.query)
-res.send('hello u browser')
-console.log("hello u konzolu")
-
+   res.json(results)
 })
+
+
+
+//const port = 3000;
+
+//app.get('/', (req, res) => {
+
+//console.log(req.query)
+//res.send('hello u browser')
+//console.log("hello u konzolu")
+
+//})
 
 // `
 
