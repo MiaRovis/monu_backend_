@@ -1,6 +1,5 @@
 import mongo from "mongodb"
 
-
 let connection_string = "mongodb+srv://admin:admin@cluster0.t5ngpmk.mongodb.net/?retryWrites=true&w=majority";
 
 let client = new mongo.MongoClient(connection_string, {
