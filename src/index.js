@@ -17,7 +17,14 @@ app.post("/users", async (req, res) => {
 
     let user = req.body;
 
-    auth.registerUser(user);
+    let id;
+    try{
+    let id = await auth.registerUser(user);
+    }
+
+    catch (e){
+        res.status(500).json({error: e.message});
+    }
 
     res.json(user);
    

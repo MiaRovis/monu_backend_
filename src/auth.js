@@ -16,6 +16,20 @@ export default  {
             password: await bcrypt.hash(userData.password, 8),
             grad: userData.grad,
         };
-        await db.collection("users").insertOne(doc);
+
+        try {
+        let result = await db.collection("users").insertOne(doc);
+        
+        if (result && result.insertedId){
+            return result.insertedId;
+        };
+        
+        }
+
+        catch(e) {
+            if(e.name == "MongoError" && e.code == 11000){
+                throw new Error("User already exists!")
+            }
+        }
     },
 };
