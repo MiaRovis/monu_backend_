@@ -4,6 +4,21 @@ import auth from './auth.js';
 
 const app = express();
 
+app.use(express.json());
+
+app.post("/auth", async(req, res) => {
+    let user = req.body;
+
+    try {
+        let result = await auth.authenticateUser(user.username, user.password);
+        res.json(result);
+    }
+    catch(e){
+        res.status(403).json({error: e.message});
+    }
+
+})
+
 app.get('/posts', async (req, res) => {
     let db = await connect()
 
