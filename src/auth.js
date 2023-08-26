@@ -64,7 +64,6 @@ export default  {
    
         if(type !== "Bearer"){
             res.status(401).send();
-            return false;
             }
 
         else {
