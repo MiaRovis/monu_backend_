@@ -7,6 +7,7 @@ import connect from './db.js';
 import auth from './auth.js';
 
 const app = express();
+const port = 3000;
 
 app.use(express.json());
 
@@ -54,6 +55,8 @@ app.post("/users", async (req, res) => {
     res.json(user);
    
 });
+
+app.listen(port, () => console.log("Slušam na portu: ", port));
 
 
 
