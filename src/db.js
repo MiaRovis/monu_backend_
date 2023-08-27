@@ -1,30 +1,30 @@
-import mongo from "mongodb"
-
+import mongodb from 'mongodb';
+ 
 let connection_string = "mongodb+srv://admin:admin@cluster0.t5ngpmk.mongodb.net/?retryWrites=true&w=majority";
-
-let client = new mongo.MongoClient(connection_string, {
+ 
+let client = new mongodb.MongoClient(connection_string, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-})
-
+}); 
+ 
 let db = null
-
+// eksportamo Promise koji resolva na konekciju
 export default () => {
     return new Promise((resolve, reject) => {
-
-        if (db && client.isConnected()){
-            resolve(db)
+        // ako smo inicijalizirali bazu i klijent je još uvijek spojen
+        if (db) {
+            console.log("Database already connected!")
+            resolve(db);
+        } else {
+            try{
+                client.connect();
+                console.log('Database connected successfully!');
+                db = client.db("Monu");
+                resolve(db);
+            } catch(e) {
+                console.log(e)
+                reject('Database not connected! ' + e);
+            }
         }
-
-        client.connect(err => {
-            if (err) {
-                reject("greška" + err)
-            }
-            else{
-                console.log("uspjeh")
-                db = client.db("Monu")
-                resolve(db)
-            }
-        })
-    })
+    });
 }
