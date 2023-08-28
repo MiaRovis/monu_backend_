@@ -9,7 +9,7 @@ let db = null;
 
 (async () => {
     db = await connect();
-    await db.collection("users").createIndex({uemail: 1}, {unique: true});
+    await db.collection("users").createIndex({email: 1}, {unique: true});
 })();
 
 export default  {
