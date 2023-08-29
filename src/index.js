@@ -14,7 +14,7 @@ app.use(express.json());
 app.get("/secret", [auth.verify], (req, res) => {
 
     try{
-    rres.status(200).send("secret " + req.jwt.email);
+    res.status(200).send("secret " + req.jwt.email);
     } catch (error) {
     res.status(500).json({ error: error.message });
 }
@@ -28,13 +28,13 @@ app.post('/user', async(req,res) => {
         id=await auth.registerUser(userData);
     }
     catch(e){
-        res.status(500).json({erro: e.message});
+        res.status(500).json({error: e.message});
     }
     res.json({id:id})
 });
 
 //prijava
-app.post("/auth", async(req, res) => {
+app.post('/auth', async(req, res) => {
     let user = req.body;
     let userEmail = user.email;
     let userPassword = user.password;

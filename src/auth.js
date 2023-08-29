@@ -5,16 +5,16 @@ import connect from './db.js';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-let db = null;
 
 (async () => {
-    db = await connect();
+    let db = await connect();
     await db.collection("users").createIndex({email: 1}, {unique: true});
 })();
 
 export default  {
     async registerUser(userData){
         let db = await connect();
+        let result;
         	
         try{
         let doc = {
@@ -38,7 +38,7 @@ export default  {
 
     async authenticateUser(email, password) {
         let db = await connect()
-        let user = await db.collection("users").findOne({email: email})
+        let user = await db.collection('users').findOne({email: email})
     
         if (user && user.password && (await bcrypt.compare(password, user.password))) {
             
