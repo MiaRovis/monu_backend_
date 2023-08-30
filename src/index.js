@@ -34,7 +34,7 @@ app.post('/user', async(req,res) => {
 });
 
 //prijava
-app.post('/auth', async(req, res) => {
+app.post('/login', async(req, res) => {
     let user = req.body;
     let userEmail = user.email;
     let userPassword = user.password;
