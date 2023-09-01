@@ -15,17 +15,17 @@ export default  {
     async registerUser(userData){
         let db = await connect();
         let result;
-        	
         try{
-        let doc = {
-            email: userData.email,
-            password: await bcrypt.hash(userData.password, 8),
-        };
-
+            let doc = {
+                email: userData.email,
+                password: await bcrypt.hash(userData.password, 8),
+            };
        
         result = await db.collection("users").insertOne(doc);
+        console.log(result);
+
     } catch (e) {
-        
+        console.log(e);
         if(e.code == 11000) {
           throw new Error("email already exists");
         } 
@@ -42,8 +42,9 @@ export default  {
     
         if (user && user.password && (await bcrypt.compare(password, user.password))) {
             
+            
             delete user.password;
-            let token = jwt.sign(user, process.env.JWT_SECRET, {
+            let token = jwt.sign(user, "SECRET_TOP_SECRET", {
                 algorithm: "HS512",
                 expiresIn: "1 week"
             });

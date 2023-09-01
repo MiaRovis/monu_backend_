@@ -3,7 +3,7 @@ import mongo from 'mongodb';
 import connect from './db.js';
 import auth from './auth.js';
 import cors from "cors";
-
+   
 const app = express();
 const port = 3000;
 
@@ -26,11 +26,12 @@ app.post('/user', async(req,res) => {
     let id;
     try{
         id=await auth.registerUser(userData);
+        res.status(200).json({id:id})
     }
     catch(e){
+        console.log(e)
         res.status(500).json({error: e.message});
     }
-    res.json({id:id})
 });
 
 //prijava
