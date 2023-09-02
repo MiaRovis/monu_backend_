@@ -20,6 +20,29 @@ app.get("/secret", [auth.verify], (req, res) => {
 }
 });
 
+//upload slika
+
+app.post('/posts', async (req,res) => {
+    let db = await connect();
+    let monuData = req.body;
+
+    let result = await db.collection('posts').insertOne(monuData);
+    if(result.insertedCount == 1){
+        res.send({
+            status: 'success',
+            id: result.insertedId,
+        });
+    }
+    else{
+        res.send({
+            status: 'fail',
+        });
+    }
+    console.log(result);
+
+
+})
+
 //registracija
 app.post('/user', async(req,res) => {
     let userData = req.body;
