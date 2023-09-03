@@ -54,19 +54,6 @@ res.json(posts);
 
 });
 
-//prikaz slika 
-app.get('/', async (req,res) => {
-    try {
-
-        let db= await connect();
-        let cursor = await db.collection('posts').find();
-        let posts = await cursor.toArray();
-        res.json(posts);
-    }catch (error) {
-        res.status(500).json({error: error.message});
-    }
-
-});
 
 //registracija
 app.post('/user', async(req,res) => {
