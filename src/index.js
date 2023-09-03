@@ -85,7 +85,7 @@ app.post('/login', async(req, res) => {
 
 });
 
-//favorites
+//dodavanje na favorites
 app.post('/favorites', async (req,res) => {
     let db = await connect();
     let lista = req.body;
