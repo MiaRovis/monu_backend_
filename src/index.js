@@ -21,7 +21,6 @@ app.get("/secret", [auth.verify], (req, res) => {
 });
 
 //upload slika
-
 app.post('/posts', async (req,res) => {
     let db = await connect();
     let monuData = req.body;
@@ -83,6 +82,53 @@ app.post('/login', async(req, res) => {
     catch(e){
         res.status(500).json({error: e.message});
     }
+
+});
+
+//favorites
+app.post('/favorites', async (req,res) => {
+    let db = await connect();
+    let lista = req.body;
+
+    try{
+        await db.collection('lista').createIndex({user:1, image:1}, {unique: true});
+        let result = await db.collection('lista').insertOne(lista);
+
+        if(result.insertedCount == 1){
+            res.send({
+                status: 'success',
+                id: result.insertedId,
+            });
+        } else{
+            res.send({
+                status: 'crashed',
+            });
+        }
+    } catch (error){
+        if(error.code === 11000){
+            res.send({
+                status: 'crashed',
+                message: 'Already added',
+            });
+        } else{
+            console.error('Error: ', error);
+            res.send({
+                status: 'crashed'
+            });
+        }
+    }
+});
+
+//popis znamenitosti na stranici My favorites
+app.get('/favorites/:user', async (req, res) => {
+    let user = req.params.user;
+    let db = await connect();
+
+    console.log(user)
+    let document = await db.collection('lista').find({user:user})
+    let results = await document.toArray();
+
+    res.json(results)
 
 });
 
