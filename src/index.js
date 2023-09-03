@@ -28,20 +28,45 @@ app.post('/posts', async (req,res) => {
 
     let result = await db.collection('posts').insertOne(monuData);
     if(result.insertedCount == 1){
-        res.json({
+        res.send({
             status: 'success',
             id: result.insertedId,
         });
     }
     else{
-        res.json({
+        res.send({
             status: 'fail',
         });
     }
     console.log(result);
 
 
-})
+});
+
+//dohvat slika
+app.get('/posts', async (req,res) => {
+let db = await connect();
+
+let cursor = await db.collection('posts').find();
+let posts = await cursor.toArray();
+
+res.json(posts);
+
+});
+
+//prikaz slika 
+app.get('/', async (req,res) => {
+    try {
+
+        let db= await connect();
+        let cursor = await db.collection('posts').find();
+        let posts = await cursor.toArray();
+        res.json(posts);
+    }catch (error) {
+        res.status(500).json({error: error.message});
+    }
+
+});
 
 //registracija
 app.post('/user', async(req,res) => {
@@ -51,7 +76,7 @@ app.post('/user', async(req,res) => {
         id=await auth.registerUser(userData);
         res.status(200).json({id:id})
     }
-    catch(e){
+    catch(e){ 
         console.log(e)
         res.status(500).json({error: e.message});
     }
