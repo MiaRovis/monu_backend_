@@ -28,13 +28,13 @@ app.post('/posts', async (req,res) => {
 
     let result = await db.collection('posts').insertOne(monuData);
     if(result.insertedCount == 1){
-        res.send({
+        res.json({
             status: 'success',
             id: result.insertedId,
         });
     }
     else{
-        res.send({
+        res.json({
             status: 'fail',
         });
     }
