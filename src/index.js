@@ -91,38 +91,41 @@ app.post('/login', async(req, res) => {
 });
 
 //dodavanje na favorites
-app.post('/favorites', async (req,res) => {
+app.post('/favorites', async (req, res) => {
     let db = await connect();
-    let lista = req.body;
+    let data = req.body;
 
-    try{
-        await db.collection('lista').createIndex({user:1, image:1}, {unique: true});
-        let result = await db.collection('lista').insertOne(lista);
+    try {
+        
+        let result = await db.collection('lista').insertOne(data);
 
-        if(result.insertedCount == 1){
+        await db.collection('favorites').insertOne(data);
+
+        if (result.insertedCount == 1) {
             res.send({
                 status: 'success',
                 id: result.insertedId,
             });
-        } else{
+        } else {
             res.send({
                 status: 'crashed',
             });
         }
-    } catch (error){
-        if(error.code === 11000){
+    } catch (error) {
+        if (error.code === 11000) {
             res.send({
                 status: 'crashed',
                 message: 'Already added',
             });
-        } else{
+        } else {
             console.error('Error: ', error);
             res.send({
-                status: 'crashed'
+                status: 'crashed',
             });
         }
     }
 });
+
 
 //popis znamenitosti na stranici My favorites
 app.get('/favorites/:user', async (req, res) => {
