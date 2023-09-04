@@ -59,6 +59,8 @@ export default  {
             throw new Error ("cannot authenticate");
         }    
     },
+
+    // middlewear funkci
     verify(req, res, next) {
         if (req.headers['authorization']) {
             try {
