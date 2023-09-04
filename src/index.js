@@ -137,6 +137,11 @@ app.get('/favorites/:user', async (req, res) => {
 
 });
 
+
+app.get('/', async (req, res) => {
+    res.status(200).json({status: "working"})
+});
+
 //brisanje slike iz favorita
 app.get('/favorites/delete/:image', async (req, res) => {
     let image = req.params.image;
