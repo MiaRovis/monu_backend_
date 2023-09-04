@@ -94,10 +94,9 @@ app.post('/login', async(req, res) => {
 app.post('/favorites', async (req, res) => {
     let db = await connect();
     let lista = req.body;
-
     try {
-        
-        await db.collection('lista').createIndex({user: 1, favorite: 1}, {unique: true});
+      
+        //await db.collection('lista').createIndex({[lista.image]:1, [lista.user]:1}, {unique: true});
         let result = await db.collection('lista').insertOne(lista);
 
         if (result.insertedCount == 1) {
@@ -131,14 +130,28 @@ app.post('/favorites', async (req, res) => {
 app.get('/favorites/:user', async (req, res) => {
     let user = req.params.user;
     let db = await connect();
-
-    console.log(user)
-    let document = await db.collection('lista').find({user:user})
+    let document = await db.collection('lista').find({user:user});
     let results = await document.toArray();
 
     res.json(results)
 
 });
+
+//brisanje slike iz favorita
+app.get('/favorites/delete/:image', async (req, res) => {
+    let image = req.params.image;
+    let imagereal = atob(image)
+    let db = await connect();
+    let result = await db.collection('lista').deleteOne({"image":imagereal});
+    if (result && result.deletedCount === 1) {
+        res.json(result);
+      } else {
+        res.json({
+          status: "crashed",
+        });
+      }
+});
+
 
 
 app.listen(port, () => console.log("Slušam na portu: ", port));
