@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin: true,
+    origin: ["https://monu-seven.vercel.app", "http://localhost:8081"],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
 }));
