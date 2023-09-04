@@ -8,9 +8,9 @@ const app = express();
 const port = 3000;
 
 app.use(cors({
-    origin:"*",
-    methods: ["GET","HEAD","PUT","PATCH","POST","DELETE", "OPTIONS"],
-    credentials: true
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
 }));
 
 app.use(express.json());
