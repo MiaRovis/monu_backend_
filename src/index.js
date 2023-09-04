@@ -93,13 +93,12 @@ app.post('/login', async(req, res) => {
 //dodavanje na favorites
 app.post('/favorites', async (req, res) => {
     let db = await connect();
-    let data = req.body;
+    let lista = req.body;
 
     try {
         
-        let result = await db.collection('lista').insertOne(data);
-
-        await db.collection('favorites').insertOne(data);
+        await db.collection('lista').createIndex({user: 1, favorite: 1}, {unique: true});
+        let result = await db.collection('lista').insertOne(lista);
 
         if (result.insertedCount == 1) {
             res.send({
@@ -128,6 +127,7 @@ app.post('/favorites', async (req, res) => {
 
 
 //popis znamenitosti na stranici My favorites
+
 app.get('/favorites/:user', async (req, res) => {
     let user = req.params.user;
     let db = await connect();
